@@ -1,5 +1,9 @@
 # KaYS Gestione magazzino
-## API schema
+
+# API schema
+
+
+## Unita di misura
 
 ### `GET /unita`
 Restituisce le unità di misura disponibili.
@@ -22,6 +26,9 @@ Restituisce le unità di misura disponibili.
 
 ---
 
+
+## Magazzini
+
 ### `GET /magazzini`
 Restituisce tutti i magazzini disponibili.
 #### Risposta
@@ -42,6 +49,9 @@ Restituisce tutti i magazzini disponibili.
 ```
 
 ---
+
+
+## Fornitori
 
 ### `GET /fornitori`
 Restituisce tutti i fornitori disponibili.
@@ -64,6 +74,8 @@ Restituisce tutti i fornitori disponibili.
 
 ---
 
+## Pericoli
+
 ### `GET /pericoli`
 Restituisce tutti i pericoli disponibili.
 #### Risposta
@@ -84,6 +96,9 @@ Restituisce tutti i pericoli disponibili.
 ```
 
 ---
+
+
+## Ricette
 
 ### `GET /ricette`
 Restituisce tutte le ricette disponibili.
@@ -134,6 +149,9 @@ Aggiunge un prodotto a una ricetta.
 
 ---
 
+
+## Classificazioni
+
 ### `GET /classificazioni`
 Restituisce tutte le classificazioni merceologiche disponibili.
 #### Risposta
@@ -155,6 +173,9 @@ Restituisce tutte le classificazioni merceologiche disponibili.
 
 ---
 
+
+## Categorie
+
 ### `GET /categorie`
 Restituisce tutte le categorie disponibili.
 #### Risposta
@@ -175,6 +196,9 @@ Restituisce tutte le categorie disponibili.
 ```
 
 ---
+
+
+## Articoli
 
 ### `GET /articoli`
 Restituisce tutti gli articoli disponibili.
@@ -215,6 +239,9 @@ Aggiunge un nuovo articolo.
 
 ---
 
+
+## Prodotti
+
 ### `GET /prodotti`
 Restituisce tutti i prodotti disponibili.
 #### Risposta
@@ -253,6 +280,10 @@ Aggiunge un nuovo prodotto.
 ```
 
 ---
+
+
+## Lotti
+
 
 ### `GET /lotti`
 Restituisce tutti i lotti disponibili.
