@@ -9,7 +9,7 @@ export async function createArticolo(nome: string, descrizione: string = "", idP
 
 export async function getArticoli() {
     const [articoli] = await pool.query<Articolo[]>(` 
-        SELECT a.nome, a.descrizione, a.quantita_recipiente as "quantitaRecipiente", a.posizione, a.link_scheda as "linkScheda", f.nome as "fornitore" from articoli a
+        SELECT a.nome, a.descrizione, a.id, a.quantita_recipiente as "quantitaRecipiente", a.posizione, a.link_scheda as "linkScheda", f.nome as "fornitore" from articoli a
         join fornitori f on f.id = a.id_fornitore            
     `)
     return articoli;
@@ -19,4 +19,16 @@ export async function getArticoli() {
 export async function deleteArticolo(id:number) {
     const [result] = await pool.query(`delete from articoli where id = ?`, [id]);
     return result;
+}
+
+export async function getArticolo(id: number) {
+    const [articolo] = await pool.query<Articolo[]>(` 
+        SELECT a.nome, a.descrizione, a.quantita_recipiente as "quantitaRecipiente", a.posizione, a.link_scheda as "linkScheda", f.nome as "fornitore" from articoli a
+        join fornitori f on f.id = a.id_fornitore          
+        where a.id = ?  
+    `, [id])
+    
+    if(!articolo[0]) throw { message: "not found", status: 404 }
+
+    return articolo[0];
 }
