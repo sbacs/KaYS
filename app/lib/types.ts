@@ -3,7 +3,6 @@ import { RowDataPacket } from "mysql2"
 export interface Unita extends RowDataPacket {
     id: number;
     tipo: string;
-    iniziali: string
 }
 
 export interface Categoria extends RowDataPacket {

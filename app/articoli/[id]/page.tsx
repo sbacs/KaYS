@@ -1,44 +1,48 @@
-import { Articolo } from "@/app/lib/types"
+import { Articolo, Prodotto } from "@/app/lib/types"
 import { getArticolo } from "@/app/services/articoli"
+import { getProdotto } from "@/app/services/prodotti";
 
 
 export default async function articolo({
     params,
 }: {
-     params: Promise<{ id: string }>
+    params: Promise<{ id: string }>
 }) {
 
-    const {id} = await params;
+    const { id } = await params;
 
     const articolo: Articolo = await getArticolo(Number(id))
+    const prodotto: Prodotto = await getProdotto(Number(id))
 
     return (
-        <div className="flex flex-col gap-y-4 justify-center px-5 py-5  w-full items-center">
-            <div className="grid  grid-cols-[repeat(auto-fill,minmax(275px,1fr))] gap-5 w-full">
+        <div className="flex gap-x-10 justify-center px-5 py-5  w-full ">
+            <div className="bg-white/10 rounded-lg p-10 flex gap-5 flex-col">
+                <h1 className="font-bold text-2xl">{articolo.nome}</h1>
+                <h1>{articolo.quantitaRecipiente} {prodotto.unita.tipo}</h1>
+                <h1>{articolo.fornitore}</h1>
+                <h1>{articolo.descrizione}</h1>
+                <h1>{prodotto.classificazione}</h1>
 
-                <div key={articolo.id} className="h-75 shrink-0 justify-between aspect-square flex flex-col rounded-lg  bg-white/5 p-5 ">
+            </div>
+            <div className="bg-white/10 rounded-lg p-10 flex gap-5 flex-col">
 
-                    <div>
-                        <h1 className="font-extrabold text-lg"> {articolo.nome}</h1>
-
-                        <div>
-                            <h1 className="font-bold flex">Fornitore</h1>
-                            <h1> {articolo.fornitore}</h1>
-                        </div>
-                        <div>
-                            <h1 className="font-bold flex">Descrizione</h1>
-                            <h1> {articolo.descrizione}</h1>
-                        </div>
-                    </div>
-
-
-                    <div className="w-full flex justify-between">
-                        <button className="bg-yellow-500 p-2 px-5 rounded-lg font-bold hover:cursor-pointer hover:scale-105 transition-transform duration-150"> Edit</button>
-                        <button className="bg-red-500 p-2 px-5 rounded-lg font-bold hover:cursor-pointer hover:scale-105 transition-transform duration-150">Delete</button>
-                    </div>
+                <h1 className="font-bold text-2xl">Informazioni Prodotto</h1>
+                <div>
+                    <h1 className="font-bold">Numero Cas</h1>
+                    <h1> {prodotto.cas}</h1>
                 </div>
-
-
+                <div>
+                    <h1 className="font-bold">Classificazione</h1>
+                    <h1> {prodotto.classificazione}</h1>
+                </div>
+                <div>
+                    <h1 className="font-bold">Riordino</h1>
+                    <h1> {prodotto.quantitaRiordino} {prodotto.unita.tipo}</h1>
+                </div>
+                <div>
+                    <h1 className="font-bold">Descrizione</h1>
+                    <h1> {prodotto.descrizione}</h1>
+                </div>
 
             </div>
         </div>
