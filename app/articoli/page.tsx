@@ -1,15 +1,29 @@
 import { Articolo } from "../lib/types"
 import { getArticoli } from "../services/articoli"
 import Link from "next/link"
+import FilterBar from "../_components/FilterBar"
+import Search from "../_components/Search"
+import { getFornitori } from "../services/fornitori"
 
 export default async function articolo() {
 
     const articoli: Articolo[] = await getArticoli()
+    const fornitori = await getFornitori()
+
+    const filters : Record<string, { values: string[], active: number }> = {
+        "Ordina": { values: ["Data", "Alfabetico"], active: 0 },
+        "Fornitori": { values: ["tutti", ...fornitori.map(f => f.nome)], active: 0 }
+    }
+
 
 
     return (
         <div className="flex flex-col gap-y-8 justify-center px-5 py-5  w-full items-center">
             <h1 className="text-4xl text-card font-bold">Catalogo Articoli</h1>
+            <div className="w-full flex gap-x-4">
+                <Search />
+                <FilterBar initialFilters={filters}/>
+            </div>
             <div className="grid  grid-cols-[repeat(auto-fill,minmax(275px,1fr))] gap-5 w-full  overflow-y-scroll py-2">
                 {
                     articoli.map((a) => {

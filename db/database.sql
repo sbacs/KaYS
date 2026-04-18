@@ -20,7 +20,8 @@ create table pericoli (
 
 create table unita_misura (
 	id int primary key not null auto_increment,
-	tipo varchar(50) not null
+	tipo varchar(50) not null,
+	iniziali varchar(10) not null
 );
 
 create table classificazioni_merceologiche (
@@ -43,7 +44,6 @@ create table prodotti (
 	concentrazione integer,
 	nome varchar(25) not null,
 	quantita_riordino integer not null default 0,
-	classificazione varchar(25) not null,
 
 	foreign key (id_categoria) references categorie(id) ON DELETE CASCADE,
 	foreign key (id_unita) references unita_misura(id) ON DELETE CASCADE
