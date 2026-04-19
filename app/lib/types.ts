@@ -70,3 +70,7 @@ export interface Articolo extends RowDataPacket {
     posizione: string;
     linkScheda: string;
 }
+
+export interface ArticoloDettagliato extends Articolo{
+    prodotto: Prodotto
+}

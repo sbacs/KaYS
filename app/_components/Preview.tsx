@@ -67,7 +67,7 @@ export default function Preview({ className }: Preview) {
     return (
 
 
-        <div className="bg-card-light   p-5 shadow-lg rounded-2xl border-card/15 border flex-col flex gap-y-4">
+        <div className="bg-card-secondary   p-5 shadow-lg rounded-2xl border-card/15 border flex-col flex gap-y-4">
             <div className="flex gap-x-4 items-center ">
                 <h1 className="text-card font-bold text-2xl ">Preview</h1>
                 <h1 className="text-sm text-card/75">Più Recenti</h1>

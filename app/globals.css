@@ -4,7 +4,7 @@
   --foreground: #0a0a0a;
   --background: rgb(239, 239, 239);
   --card: #1c2022;
-  --card-light: #ffffff;
+  --card-secondary: #ffffff;
   --text-secondary: #ffffff;
 
 }
@@ -13,7 +13,7 @@
   --background: #0a0a0a;
   --foreground: #e8e0e7;
   --card: #212528;
-  --card-light: #ffffff;
+  --card-secondary: #ffffff;
   --text-secondary: #000000;
 }
 
@@ -21,7 +21,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
-  --color-card-light: var(--card-light);
+  --color-card-secondary: var(--card-secondary);
   --font-sans: var(--font-geist-mono); 
   --color-text-secondary: var(--text-secondary);
 }

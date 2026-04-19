@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { Articolo, ArticoloDettagliato } from '@/app/lib/types';
-import { createArticolo, deleteArticolo, getArticolo } from '@/app/services/articoli';
+import { Prodotto } from '@/app/lib/types';
+import { deleteProdotto, getProdotto } from '@/app/services/prodotti';
 
 
 export async function GET(
@@ -10,8 +10,8 @@ export async function GET(
 
     const { id } = await params;
     try {
-        const articolo: ArticoloDettagliato = await getArticolo(Number(id));
-        return NextResponse.json(articolo, { status: 200 });
+        const prodotto : Prodotto = await getProdotto(Number(id));
+        return NextResponse.json(prodotto, { status: 200 });
 
     } catch {
 
@@ -28,7 +28,7 @@ export async function DELETE(
     const { id } = await params;
 
     try {
-        await deleteArticolo(Number(id));
+        await deleteProdotto(Number(id));
         return NextResponse.json({ status: 200 });
 
     } catch {
