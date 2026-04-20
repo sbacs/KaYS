@@ -1,7 +1,8 @@
 import pool from "../lib/db";
 import { Ricetta, RicettaDettagliata, Ingrediente, ArticoloDettagliato } from "../lib/types";
-import { Articolo } from "../lib/types";
+import { Articolo, Prodotto } from "../lib/types";
 import { RowDataPacket } from "mysql2";
+import { getProdotto } from "./prodotti";
 
 export async function createArticolo(nome: string, descrizione: string = "", idProdotto: number, idFornitore: number, quantitaRecipiente: number, posizione: string, linkScheda: string) {
     const [result] = await pool.query(`INSERT INTO articoli (nome, descrizione, id_prodotto, quantita_recipiente, id_fornitore, posizione, link_scheda) VALUES (?, ?, ?, ?, ?, ?, ?)`, [nome, descrizione, idProdotto, quantitaRecipiente, idFornitore, posizione, linkScheda]);
@@ -14,6 +15,46 @@ export async function deleteArticolo(id: number) {
     return result;
 }
 
+export async function editArticolo(
+    idArticolo: number,
+    updates: {
+        nome?: string,
+        idProdotto?: number,
+        quantitaRecipiente?: number,
+        idFornitore?: number,
+        descrizione?: string,
+        posizione?: string,
+        linkScheda?: string,
+    }
+) {
+    const fields = {
+        nome: updates.nome,
+        id_prodotto: updates.idProdotto,
+        quantita_recipiente: updates.quantitaRecipiente,
+        id_fornitore: updates.idFornitore,
+        descrizione: updates.descrizione,
+        posizione: updates.posizione,
+        link_scheda: updates.linkScheda,
+    };
+
+    const prodotto1 : Prodotto = await getProdotto(updates.idProdotto || 1)
+    const art : Articolo = await getArticolo(idArticolo);
+    const prodotto2 : Prodotto = await getProdotto(art.idProdotto)
+
+    if(prodotto1.unita.id != prodotto2.unita.id) throw Error;
+
+    const entries = Object.entries(fields).filter(([_, v]) => v !== undefined);
+    const setClauses = entries.map(([col], i) => `${col} = ?`).join(', ');
+    const values = entries.map(([_, v]) => v);
+
+    const [result] = await pool.query(
+        `UPDATE articoli SET ${setClauses} WHERE id = ?`,
+        [...values, idArticolo]
+    );
+
+    return [result]
+}
+
 export async function getArticolo(id: number) {
     const [articolo] = await pool.query<ArticoloDettagliato[]>(` 
         SELECT
@@ -23,7 +64,7 @@ export async function getArticolo(id: number) {
             a.quantita_recipiente AS "quantitaRecipiente", 
             a.posizione, 
             a.link_scheda AS "linkScheda", 
-            f.nome AS "fornitore",
+            JSON_OBJECT('id', f.id, 'nome', f.nome) as fornitore,
             a.id_prodotto as "idProdotto",
             JSON_OBJECT(
             'id', p.id,
@@ -86,7 +127,7 @@ export async function getArticoli(ordine = "", prodotto = "", fornitore = "", q 
             a.quantita_recipiente AS "quantitaRecipiente", 
             a.posizione, 
             a.link_scheda AS "linkScheda", 
-            f.nome AS "fornitore"
+            JSON_OBJECT('id', f.id, 'nome', f.nome) as fornitore
         FROM articoli a
         JOIN fornitori f ON f.id = a.id_fornitore
         JOIN prodotti p ON p.id = a.id_prodotto

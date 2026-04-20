@@ -51,7 +51,7 @@ export default function Preview({ className }: Preview) {
 
                 <h1 className="text-sm text-card/75">{p.descrizione}</h1>
                 <h1 className="text-card">CAS {p.cas}</h1>
-                <h1 className="text-card">Riordino di {p.quantitaRiordino} {p.Unita.tipo}</h1>
+                <h1 className="text-card">Riordino di {p.quantitaRiordino} {p.unita.tipo}</h1>
             </div>
         }),
         categorie: categorie?.slice(0, 4).map((c) => {

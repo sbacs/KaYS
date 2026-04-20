@@ -2,31 +2,67 @@
 
 import { ArticoloDettagliato, Categoria, Fornitore, Prodotto } from "../lib/types"
 import { CircleX } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface PannelloArticoloProps {
     articolo: ArticoloDettagliato | undefined;
     close: () => void;
-    prodotti: Prodotto[] | undefined;
-    fornitori: Fornitore[] | undefined;
 }
 
-export default function PannelloArticolo({ articolo, close, prodotti, fornitori }: PannelloArticoloProps) {
+export default function PannelloArticolo({ articolo, close }: PannelloArticoloProps) {
 
     const [selectedProdotto, setSelectedProdotto] = useState<Prodotto | undefined>(articolo?.prodotto);
-    const [selectedFornitoreId, setSelectedFornitoreId] = useState<string | undefined>(articolo?.fornitore);
+    const [selectedFornitoreId, setSelectedFornitoreId] = useState<number | undefined>(articolo?.fornitore.id);
+
+    const [prodotti, setProdotti] = useState<Prodotto[]>();
+    const [fornitori, setFornitori] = useState<Fornitore[]>();
+
+    async function applyChanges() {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli/${articolo?.id}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nome: articolo?.nome,
+                idProdotto: selectedProdotto?.id,
+                quantitaRecipiente: articolo?.quantitaRecipiente,
+                idFornitore: selectedFornitoreId,
+                descrizione: articolo?.descrizione,
+                posizione: articolo?.posizione,
+                linkScheda: articolo?.linkScheda
+            }),
+        });
+
+        console.log("done")
+        console.log(await res.json());
+    }
 
     useEffect(() => {
         if (!articolo) return;
         setSelectedProdotto(articolo.prodotto);
-        setSelectedFornitoreId(articolo.fornitore);
+        setSelectedFornitoreId(articolo.fornitore.id);
     }, [articolo])
 
-    if (!selectedProdotto || !selectedFornitoreId || !fornitori || !prodotti) return <div>asuhdajgshdjhbisadjihbdshuij</div>;
+    useEffect(() => {
+        async function getDropdowns() {
+
+            const [fornitori, prodotti] = await Promise.all([
+                fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/fornitori`).then(r => r.json() as Promise<Fornitore[]>),
+                fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/prodotti`).then(r => r.json() as Promise<Prodotto[]>),
+            ])
+
+            setProdotti(prodotti);
+            setFornitori(fornitori)
+        }
+        getDropdowns()
+
+    }, [])
+
+    if (!selectedProdotto || !selectedFornitoreId || !fornitori || !prodotti) return <div>Loading View</div>;
 
     return (
 
-        <div className="w-150 h-full bg-card-secondary rounded-xl flex flex-col shadow-md p-5">
+        <div className="overflow-y-scroll max-w-100 min-w-100 h-full bg-card-secondary rounded-xl flex flex-col shadow-md p-5">
 
             <div className="self-end items-center flex">
                 <button className="hover:cursor-pointer transition-transform duration-150 hover:scale-105" onClick={close}><CircleX /></button>
@@ -34,14 +70,14 @@ export default function PannelloArticolo({ articolo, close, prodotti, fornitori 
 
             {
                 (articolo && selectedFornitoreId && selectedProdotto) ? (
-                    <div className="flex flex-col gap-y-8 bg-violet-600">
-                        <div className="flex flex-col gap-y-1">
+                    <div className="flex flex-col gap-y-8 ">
+                        <div className="flex flex-col gap-y-4">
                             <h1 className="font-extrabold text-2xl border-b border-card/25">Articolo</h1>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col gap-y-1">
                                 <h1 className="text-lg font-bold">{articolo.nome}</h1>
                                 <select
                                     value={selectedFornitoreId}
-                                    onChange={e => setSelectedFornitoreId(e.target.value)}
+                                    onChange={e => setSelectedFornitoreId(Number(e.target.value))}
                                     className="text-md text-card/75 bg-transparent border-none outline-none hover:text-card cursor-pointer w-fit"
                                 >
                                     {fornitori.map(f => (
@@ -50,14 +86,14 @@ export default function PannelloArticolo({ articolo, close, prodotti, fornitori 
                                 </select>
                                 <h1 className="text-md text-card/75">{articolo.descrizione}</h1>
                                 <h1 className="text-md text-card/75">{articolo.linkScheda}</h1>
-                                <h1 className="text-md text-card/75">Quantita' del recipiente {articolo.quantitaRecipiente} {articolo.prodotto.unita.tipo}</h1>
+                                <h1 className="text-md text-card/75">Quantita' del recipiente {articolo.quantitaRecipiente} {selectedProdotto.unita.tipo}</h1>
                             </div>
 
                         </div>
 
-                        <div className="flex flex-col gap-y-1">
+                        <div className="flex flex-col gap-y-4">
                             <h1 className="font-bold text-2xl border-b border-card/25">Prodotto</h1>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col gap-y-1">
                                 <select
                                     value={selectedProdotto.id}
                                     onChange={(e) => {
@@ -67,11 +103,10 @@ export default function PannelloArticolo({ articolo, close, prodotti, fornitori 
                                     }}
                                     className="text-lg font-bold text-card bg-transparent border-none outline-none hover:text-card/75 cursor-pointer w-fit"
                                 >
-                                    {prodotti.map(p => (
-                                        <option key={p.id} value={p.id}>{p.nome}</option>
-                                    ))}
+                                    {prodotti.map(p => {
+                                        return p.unita.id == articolo.prodotto.unita.id && <option key={p.id} value={p.id}>{p.nome}</option>
+                                    })}
                                 </select>
-                                <h1 className="text-md text-card/75">{selectedProdotto.nome}</h1>
                                 <h1 className="text-md text-card/75">CAS {selectedProdotto.cas}</h1>
                                 <h1 className="text-md text-card/75">Quantita' di riordino {selectedProdotto.quantitaRiordino} {selectedProdotto.unita.tipo}</h1>
                                 <h1 className="text-md text-card/75">{selectedProdotto.classificazione}</h1>
@@ -87,14 +122,18 @@ export default function PannelloArticolo({ articolo, close, prodotti, fornitori 
 
                         </div>
 
+
+                        <button onClick={async () => { await applyChanges(); window.dispatchEvent(new CustomEvent("open-modal", { detail: { message: "Salvato!" } })); } } className="bg-card shadow-md text-card-secondary w-fit rounded-xl self-center p-2 hover:cursor-pointer hover:scale-105 transition-all duration-150">Applica</button>
+                        <Link href={`/articoli/${articolo.id}`} className="underline">vedi altro</Link>
                     </div>
 
+
                 ) : (
-                    <div className=" h-full w-full flex items-center justify-center">Loading</div>
+                    <div className=" h-full w-100 shrink-0 flex items-center justify-center">Loading</div>
                 )
             }
 
-        </div>
+        </div >
 
     )
 }

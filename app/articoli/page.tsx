@@ -109,7 +109,7 @@ export default function articolo() {
                     </div>
                 </div>
                 {
-                    edit && <PannelloArticolo articolo={infoArticolo} close={() => setEdit(null)} prodotti={prodotti} fornitori={fornitori}/>
+                    edit && <PannelloArticolo articolo={infoArticolo} close={() => setEdit(null)}/>
                 }
             </div>
 

@@ -13,7 +13,7 @@ export default function ArticoloRow({ articolo, setEdit }: ArticoloProps) {
         <div key={articolo.id} className="h-15 flex  bg-card-secondary items-center justify-between shrink-0  rounded-2xl px-5 shadow-md border-card/15 truncate ">
 
             <h1 className="w-full font-extrabold text-xl"> {articolo.nome}</h1>
-            <h1 className="text-sm w-full text-card/75"> {articolo.fornitore}</h1>
+            <h1 className="text-sm w-full text-card/75"> {articolo.fornitore.nome}</h1>
 
             <h1 className="text-card w-full text-md text-ellipsis truncate "> {articolo.descrizione}</h1>
 

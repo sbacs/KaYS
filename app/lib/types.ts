@@ -65,7 +65,7 @@ export interface Articolo extends RowDataPacket {
     idProdotto: number;
     nome: string;
     quantitaRecipiente: number;
-    fornitore: string;
+    fornitore: Fornitore;
     descrizione: string;
     posizione: string;
     linkScheda: string;
