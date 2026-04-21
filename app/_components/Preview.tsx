@@ -39,7 +39,7 @@ export default function Preview({ className }: Preview) {
                 </div>
 
                 <h1 className="text-sm text-card/75">{a.descrizione}</h1>
-                <h1 className="text-card">{a.fornitore}</h1>
+                <h1 className="text-card">{a.fornitore.nome}</h1>
             </div>
         }),
         prodotti: prodotti?.slice(0, 4).map((p) => {

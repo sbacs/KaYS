@@ -41,3 +41,39 @@ export async function getProdotto(id: number) {
 
     return prodotto[0];
 }
+
+
+export async function editProdotto(
+    idProdotto: number,
+    updates: {
+        nome?: string,
+        cas?: string,
+        idUnita?: number,
+        quantitaRiordino?: number,
+        descrizione?: string,
+        classificazione?: string,
+        idCategoria?: number,
+    }
+) {
+    const fields = {
+        nome: updates.nome,
+        cas: updates.cas,
+        quantita_riordino: updates.quantitaRiordino,
+        id_categoria: updates.idCategoria,
+        descrizione: updates.descrizione,
+        classificazione: updates.classificazione,
+        id_unita: updates.idUnita,
+    };
+
+
+    const entries = Object.entries(fields).filter(([_, v]) => v !== undefined);
+    const setClauses = entries.map(([col], i) => `${col} = ?`).join(', ');
+    const values = entries.map(([_, v]) => v);
+
+    const [result] = await pool.query(
+        `UPDATE prodotti SET ${setClauses} WHERE id = ?`,
+        [...values, idProdotto]
+    );
+
+    return [result]
+}

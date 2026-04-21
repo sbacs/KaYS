@@ -1,16 +1,14 @@
 "use client"
 
 import { ArticoloDettagliato, Categoria, Fornitore, Prodotto } from "../lib/types"
-import { CircleX } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface PannelloArticoloProps {
     articolo: ArticoloDettagliato | undefined;
-    close: () => void;
 }
 
-export default function PannelloArticolo({ articolo, close }: PannelloArticoloProps) {
+export default function PannelloArticolo({ articolo }: PannelloArticoloProps) {
 
     const [selectedProdotto, setSelectedProdotto] = useState<Prodotto | undefined>(articolo?.prodotto);
     const [selectedFornitoreId, setSelectedFornitoreId] = useState<number | undefined>(articolo?.fornitore.id);
@@ -58,16 +56,13 @@ export default function PannelloArticolo({ articolo, close }: PannelloArticoloPr
 
     }, [])
 
-    if (!selectedProdotto || !selectedFornitoreId || !fornitori || !prodotti) return <div>Loading View</div>;
+    if (!selectedProdotto || !selectedFornitoreId || !fornitori || !prodotti) return <div className="max-w-100 flex items-center justify-center min-w-100 h-full bg-card-secondary rounded-xl  shadow-md lg:p-5 p-2 border border-card/15">Loading View</div>;
 
     return (
 
-        <div className="overflow-y-scroll max-w-100 min-w-100 h-full bg-card-secondary rounded-xl flex flex-col shadow-md p-5">
+        <div className="overflow-y-scroll lg:max-w-100 lg:min-w-100 w-full h-full bg-card-secondary rounded-xl flex flex-col border border-card/15 shadow-md p-5 ">
 
-            <div className="self-end items-center flex">
-                <button className="hover:cursor-pointer transition-transform duration-150 hover:scale-105" onClick={close}><CircleX /></button>
-            </div>
-
+          
             {
                 (articolo && selectedFornitoreId && selectedProdotto) ? (
                     <div className="flex flex-col gap-y-8 ">
@@ -124,7 +119,7 @@ export default function PannelloArticolo({ articolo, close }: PannelloArticoloPr
 
 
                         <button onClick={async () => { await applyChanges(); window.dispatchEvent(new CustomEvent("open-modal", { detail: { message: "Salvato!" } })); } } className="bg-card shadow-md text-card-secondary w-fit rounded-xl self-center p-2 hover:cursor-pointer hover:scale-105 transition-all duration-150">Applica</button>
-                        <Link href={`/articoli/${articolo.id}`} className="underline">vedi altro</Link>
+                     
                     </div>
 
 

@@ -32,14 +32,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${figtree.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${figtree.variable} h-full antialiased relative overflow-hidden`}
     >
-      <body className="h-full flex flex-col items-center ">
+      <body className="h-full flex flex-col relative items-center overflow-hidden ">
         <div className="flex flex-row h-full w-[90%]  justify-center" >
           {children}
         </div>
+        <PopUp />
       </body>
-      <PopUp />
+
     </html>
   );
 }

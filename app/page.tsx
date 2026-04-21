@@ -108,8 +108,8 @@ export default async function Home() {
 
       <Link href={"/"} className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer">Aggiungi nuovo prodotto</Link>
       <Link href={"/"} className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer">Aggiungi nuovo articolo</Link>
-      <Link href={"/"} className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer">Visualizza articoli</Link>
       <Link href={"/articoli"} className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer">Visualizza articoli</Link>
+      <Link href={"/prodotti"} className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer">Visualizza prodotti</Link>
     </div>
   );
 }

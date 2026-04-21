@@ -1,48 +1,45 @@
 "use client"
 
-import { Articolo, ArticoloDettagliato, Categoria, Fornitore, Prodotto } from "../lib/types"
-import Link from "next/link"
 import FilterBar from "../_components/FilterBar"
+import ProdottoRow from "../_components/Rows/Prodotto"
 import Search from "../_components/Search"
+import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
-import ArticoloRow from "../_components/Rows/Articolo"
-import PannelloArticolo from "../_components/PanelloArticolo"
+import PannelloProdotto  from "../_components/PanelloProdotto"
+import { Prodotto, Fornitore, Categoria, Unita } from "../lib/types"
 
-export default function articoli() {
+export default function prodotti() {
 
     const params = useSearchParams()
 
-    const Fornitore = params.get("Fornitore") ?? ""
-    const Prodotto = params.get("Prodotto") ?? ""
+    const categoria = params.get("categoria") ?? ""
+    const unita = params.get("unita") ?? ""
     const q = params.get("q") ?? ""
 
-    const [articoli, setArticoli] = useState<Articolo[]>()
     const [edit, setEdit] = useState<Number | null>()
 
     const [filters, setFilters] = useState<Record<string, { values: string[], active: number }>>()
     const [prodotti, setProdotti] = useState<Prodotto[]>()
     const [fornitori, setFornitori] = useState<Fornitore[]>()
+    const [infoProdotto, setInfoProdotto] = useState<Prodotto | undefined>()
 
-    const [infoArticolo, setInfoArticolo] = useState<ArticoloDettagliato | undefined>(undefined)
-
-    async function getArticoli() {
-        const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli`;
-        const params = new URLSearchParams({ Fornitore, Prodotto, q })
+    async function getProdotti() {
+        const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/prodotti`;
+        const params = new URLSearchParams({ categoria, unita, q })
         const endpoint = `${url}?${params}`
 
         const res = await fetch(endpoint)
-        const articoli = await res.json()
+        const prodotti = await res.json()
 
-        setArticoli(articoli)
+        setProdotti(prodotti)
     }
 
     useEffect(() => {
         async function getDropdowns() {
 
-            const [fornitori, prodotti] = await Promise.all([
-                fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/fornitori`).then(r => r.json() as Promise<Fornitore[]>),
-                fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/prodotti`).then(r => r.json() as Promise<Prodotto[]>),
+            const [unita, categoria] = await Promise.all([
+                fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/unita`).then(r => r.json() as Promise<Unita[]>),
+                fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categorie`).then(r => r.json() as Promise<Categoria[]>),
             ])
 
             setProdotti(prodotti);
@@ -50,46 +47,47 @@ export default function articoli() {
 
             setFilters({
                 "Ordine": { values: ["Data", "Alfabetico"], active: 0 },
-                "Fornitore": { values: ["tutti", ...fornitori.map(f => f.nome)], active: 0 },
-                "Prodotto": { values: ["tutti", ...prodotti.map(p => p.nome)], active: 0 }
+                "categoria": { values: ["tutti", ...categoria.map(c => c.nome)], active: 0 },
+                "unità": { values: ["tutti", ...unita.map(u => u.tipo)], active: 0 }
             })
         }
 
 
         getDropdowns();
-        getArticoli();
     }, [])
 
     useEffect(() => {
         if (!edit) return;
 
-        setInfoArticolo(undefined)
+        setInfoProdotto(undefined)
 
         async function getInfo() {
-            const articolo: ArticoloDettagliato = await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli/${edit}`)).json()
-            console.log(articolo)
-            setInfoArticolo(articolo)
+            const prodotto: Prodotto = await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/prodotti/${edit}`)).json()
+            console.log(prodotto)
+            setInfoProdotto(prodotto)
         }
 
         getInfo()
     }, [edit])
 
     useEffect(() => {
-        getArticoli()
-        console.log("asjdajshdu")
-    }, [Prodotto, Fornitore, q])
+        getProdotti()
+    }, [categoria, unita, q])
+
+
 
     if (!filters) return <div className="w-full h-full flex items-center justify-center">loading</div>
 
-    if (!articoli) return <div>Nessun articolo trovato</div>
+    if (!prodotti) return <div>Nessun prodotto trovato</div>
+
 
     return (
         <div className="flex pt-20 pb-5 w-full h-full">
 
             <div className="flex flex-col gap-y-8  px-5 h-full pb-5  w-full items-center overflow-hidden">
-                <h1 className="text-4xl text-card font-bold text-center">Catalogo Articoli</h1>
+                <h1 className="text-4xl text-card font-bold text-center">Catalogo Prodotti</h1>
                 <div className="w-full flex gap-x-4 flex-col lg:flex-row gap-y-4">
-                    <Search />
+                    <Search route={`/prodotti`} />
 
                     <FilterBar initialFilters={filters} className="" />
                 </div>
@@ -97,14 +95,13 @@ export default function articoli() {
                     <div className="flex w-full flex-col" >
                         <div className="hidden lg:flex flex-row font-bold text-lg justify-between px-5 border-b border-card/15 h-8 shrink-0 ">
                             <h1 className="w-full">Nome</h1>
-                            <h1 className="w-full">Fornitore</h1>
                             <h1 className="w-full ">Descrizione</h1>
                             <h1 className="w-50 shrink-0 ">Opzioni</h1>
                         </div>
                         <div className="flex flex-col gap-y-2 w-full  overflow-y-scroll py-2">
                             {
-                                articoli.map((a) => {
-                                    return <ArticoloRow articolo={a} setEdit={(id) => setEdit(id)} />
+                                prodotti.map((p) => {
+                                    return <ProdottoRow prodotto={p} setEdit={(id) => setEdit(id)} />
                                 })
                             }
 
@@ -112,9 +109,11 @@ export default function articoli() {
                     </div>
                 </div>
             </div>
+
             {
-                edit && <PannelloArticolo articolo={infoArticolo} />
+                edit && <PannelloProdotto prodotto={infoProdotto} />
             }
+
 
         </div>
     )
