@@ -27,12 +27,11 @@ export default function Preview({ className }: Preview) {
         }
 
         getPreviews();
-        console.log(prodotti)
     }, [])
 
     const panel: Record<string, React.ReactNode> = {
         articoli: articoli?.slice(0, 4).map((a) => {
-            return <div className="flex flex-col border-card/15 rounded-xl shadow-md border w-75 gap-y-2 h-40 p-5">
+            return <div className="flex flex-col border-card/15 rounded-xl shadow-md border w-full gap-y-2 h-full p-5">
                 <div className="flex justify-between items-start">
                     <h1 className="font-bold text-card text-xl">{a.nome}</h1>
                     <button className="hover:cursor-pointer transition-all duration-150 hover:scale-110"><Ellipsis /></button>
@@ -67,7 +66,7 @@ export default function Preview({ className }: Preview) {
     return (
 
 
-        <div className="bg-card-secondary   p-5 shadow-lg rounded-2xl border-card/15 border flex-col flex gap-y-4">
+        <div className="bg-card-secondary p-5 shadow-lg rounded-2xl border-card/15 border flex-col flex gap-y-4 w-full">
             <div className="flex gap-x-4 items-center ">
                 <h1 className="text-card font-bold text-2xl ">Preview</h1>
                 <h1 className="text-sm text-card/75">Più Recenti</h1>

@@ -76,4 +76,4 @@ export async function editProdotto(
     );
 
     return [result]
-} //palle
+}
