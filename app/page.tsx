@@ -28,7 +28,7 @@ export default async function Home() {
         <div className="w-full h-90 bg-card rounded-2xl flex-col flex items-center shrink-0 border-black border-2">
           <div className=" w-[95%] self-center h-[25%] border-b border-card-secondary/10 shrink-0 justify-between text-card-secondary items-center flex">
             <h1 className="text-3xl font-bold">KaYS</h1>
-            <div className="flex gap-x-1"> 
+            <div className="flex gap-x-1">
               <Search />
               <h1>Search</h1>
             </div>
@@ -68,34 +68,9 @@ export default async function Home() {
         <div className="flex w-full h-full">
           <Preview />
         </div>
-
-        <Link
-          href={"/"}
-          className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer"
-        >
-          Aggiungi nuovo prodotto
-        </Link>
-        <Link
-          href={"/"}
-          className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer"
-        >
-          Aggiungi nuovo articolo
-        </Link>
-        <Link
-          href={"/articoli"}
-          className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer"
-        >
-          Visualizza articoli
-        </Link>
-        <Link
-          href={"/prodotti"}
-          className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer"
-        >
-          Visualizza prodotti
-        </Link>
       </div>
 
-      <div className="flex flex-col w-full h-full ">
+      <div className="flex flex-col w-full h-full">
         <div className="flex flex-col pt-5 font-sans w-full gap-y-5">
           <div className="w-full h-90 bg-card rounded-2xl flex-col flex items-center shrink-0 border-black border-2 ">
             <div className=" w-[95%] self-center h-[25%] border-b border-card-secondary/10 shrink-0 justify-between text-card-secondary items-center flex">
@@ -134,6 +109,44 @@ export default async function Home() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex w-full h-full">
+            <div className="bg-card-secondary p-5 shadow-lg rounded-2xl border-card/15 border flex-col flex gap-y-4 w-full h-150">
+              <div className="flex gap-x-4 items-center ">
+                <h1 className="text-card font-bold text-2xl ">Opzioni</h1>
+              </div>
+
+              <div className="flex justify-between border-b border-card/15 py-2"></div>
+              <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-5 pt-2">
+                <Link
+                  href={"/"}
+                  className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer shadow-md border border-card/15"
+                >
+                  Aggiungi nuovo prodotto
+                </Link>
+
+
+
+                <Link
+                  href={"/"}
+                  className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer shadow-md border border-card/15"
+                >
+                  Aggiungi nuovo articolo
+                </Link>
+                <Link
+                  href={"/articoli"}
+                  className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer shadow-md border border-card/15"
+                >
+                  Visualizza articoli
+                </Link>
+                <Link
+                  href={"/prodotti"}
+                  className="bg-white/10 rounded-lg p-3 font-bold hover:scale-102 transition-all duration-150 hover:cursor-pointer shadow-md border border-card/15"
+                >
+                  Visualizza prodotti
+                </Link>
               </div>
             </div>
           </div>
