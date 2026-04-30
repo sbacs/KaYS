@@ -76,7 +76,6 @@ export default function articoli() {
 
     useEffect(() => {
         getArticoli()
-        console.log("asjdajshdu")
     }, [Prodotto, Fornitore, q])
 
     if (!filters) return <div className="w-full h-full flex items-center justify-center">loading</div>
@@ -84,10 +83,13 @@ export default function articoli() {
     if (!articoli) return <div>Nessun articolo trovato</div>
 
     return (
-        <div className="flex pt-20 pb-5 w-full h-full">
+        <div className="flex pb-5 w-full h-full">
 
             <div className="flex flex-col gap-y-8  px-5 h-full pb-5  w-full items-center overflow-hidden">
-                <h1 className="text-4xl text-card font-bold text-center">Catalogo Articoli</h1>
+                <div className="w-full">
+                
+                </div>
+                <h1 className="text-4xl text-text font-bold text-center">Catalogo Articoli</h1>
                 <div className="w-full flex gap-x-4 flex-col lg:flex-row gap-y-4">
                     <Search />
 
@@ -95,13 +97,13 @@ export default function articoli() {
                 </div>
                 <div className="flex w-full h-full gap-x-5 min-h-0 flex-1">
                     <div className="flex w-full flex-col" >
-                        <div className="hidden lg:flex flex-row font-bold text-lg justify-between px-5 border-b border-card/15 h-8 shrink-0 ">
+                        <div className="hidden lg:flex flex-row font-bold text-lg justify-between px-5 border-b border-border h-8 shrink-0 ">
                             <h1 className="w-full">Nome</h1>
                             <h1 className="w-full">Fornitore</h1>
                             <h1 className="w-full ">Descrizione</h1>
                             <h1 className="w-50 shrink-0 ">Opzioni</h1>
                         </div>
-                        <div className="flex flex-col gap-y-2 w-full  overflow-y-scroll py-2">
+                        <div className="flex flex-col gap-y-2 w-full  overflow-y-scroll  py-2">
                             {
                                 articoli.map((a) => {
                                     return <ArticoloRow articolo={a} setEdit={(id) => setEdit(id)} />

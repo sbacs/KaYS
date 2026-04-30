@@ -136,3 +136,12 @@ export async function getArticoli(ordine = "", prodotto = "", fornitore = "", q 
 
     return articoli
 }
+
+export async function getArticoliFrom(data: Date) {
+
+     const [articoli] = await pool.query<Articolo[]>(`
+       select * from articoli where creato_il > ?
+    `, data)
+
+    return articoli;
+}

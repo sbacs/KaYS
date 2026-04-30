@@ -26,7 +26,7 @@ export default function PopUp() {
 
 
     return (
-        <div className={`absolute w-75 h-20 bg-card-secondary shadow-md flex items-center justify-center pointer-events-none rounded-xl border border-card/25  top-2 right-2 ${modalOpen ? " translate-x-0" : " translate-x-[110%] "} transition-all duration-150`}>
+        <div className={`absolute w-75 h-20 bg-surface shadow-md flex items-center justify-center pointer-events-none rounded-xl border border-border text-text  top-2 right-2 ${modalOpen ? " translate-x-0" : " translate-x-[110%] "} transition-all duration-150`}>
             {message}
         </div>
     )

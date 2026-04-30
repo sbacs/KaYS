@@ -1,8 +1,9 @@
 "use client"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
-import { Ellipsis } from "lucide-react"
+import { Ellipsis, SquareArrowOutUpRight, FolderSymlink} from "lucide-react"
 import { Articolo, Prodotto, Categoria } from "../lib/types"
+
 
 interface Preview {
     className?: string;
@@ -31,33 +32,33 @@ export default function Preview({ className }: Preview) {
 
     const panel: Record<string, React.ReactNode> = {
         articoli: articoli?.slice(0, 4).map((a) => {
-            return <div className="flex flex-col border-card/15 rounded-xl shadow-md border w-full gap-y-2 h-full p-5">
-                <div className="flex justify-between items-start">
-                    <h1 className="font-bold text-card text-xl">{a.nome}</h1>
-                    <button className="hover:cursor-pointer transition-all duration-150 hover:scale-110"><Ellipsis /></button>
+            return <div key={a.id} className="flex flex-col border-border rounded-xl bg-surface-raised shadow-md border w-full shrink-0  gap-y-2 lg:h-full h-fit lg:p-5 p-2 justify-center lg:justify-center">
+                <div className="flex justify-between items-center lg:items-start gap-x-5">
+                    <h1 className="font-bold text-text text-xl text-nowrap truncate">{a.nome}</h1>
+                    <Link href={`/articoli/${a.id}`} className="hover:cursor-pointer  text-text transition-all duration-150 hover:scale-110"><FolderSymlink /></Link>
                 </div>
 
-                <h1 className="text-sm text-card/75">{a.descrizione}</h1>
-                <h1 className="text-card">{a.fornitore.nome}</h1>
+                <h1 className="hidden lg:block text-sm text-text/75">{a.descrizione}</h1>
+                <h1 className="text-text hidden lg:block">{a.fornitore.nome}</h1>
             </div>
         }),
         prodotti: prodotti?.slice(0, 4).map((p) => {
-            return <div className="flex flex-col border-card/15 rounded-xl shadow-md border w-full gap-y-2 h-full p-5">
-                <div className="flex justify-between items-start">
-                    <h1 className="font-bold text-card text-xl">{p.nome}</h1>
-                    <button className="hover:cursor-pointer transition-all duration-150 hover:scale-110"><Ellipsis /></button>
+            return <div key={p.id} className="flex flex-col border-border rounded-xl bg-surface-raised justify-center shadow-md border w-full gap-y-1 h-full lg:p-5 p-2">
+                <div className="flex justify-between lg:items-start items-center ">
+                    <h1 className="font-bold text-text text-xl">{p.nome}</h1>
+                    <Link href={`/prodotti/${p.id}`} className="hover:cursor-pointer transition-all duration-150 hover:scale-110 "><FolderSymlink /></Link>
                 </div>
 
-                <h1 className="text-sm text-card/75">{p.descrizione}</h1>
-                <h1 className="text-card">CAS {p.cas}</h1>
-                <h1 className="text-card">Riordino di {p.quantitaRiordino} {p.unita.tipo}</h1>
-            </div>
+                <h1 className="text-sm text-text/75 hidden lg:block">{p.descrizione}</h1>
+                <h1 className="text-text hidden lg:block">CAS {p.cas}</h1>
+                <h1 className="text-text hidden lg:block">Riordino di {p.quantitaRiordino} {p.unita.tipo}</h1>
+            </div>  
         }),
         categorie: categorie?.slice(0, 4).map((c) => {
-            return <div className="flex flex-col border-card/15 rounded-xl shadow-md border w-full gap-y-2 h-full p-5">
-                <div className="flex justify-between items-start">
-                    <h1 className="font-bold text-card text-xl">{c.nome}</h1>
-                    <button className="hover:cursor-pointer transition-all duration-150 hover:scale-110"><Ellipsis /></button>
+            return <div key={c.id} className="flex flex-col border-border rounded-xl bg-surface-raised shadow-md border w-full shrink-0  gap-y-2 lg:h-full h-fit lg:p-5 p-2 justify-center lg:justify-center">
+                <div className="flex justify-between items-center lg:items-start gap-x-5">
+                    <h1 className="font-bold text-text text-xl text-nowrap truncate">{c.nome}</h1>
+                    <Link href={`/categorie/${c.id}`} className="hover:cursor-pointer transition-all duration-150 hover:scale-110"><FolderSymlink /></Link>
                 </div>
             </div>
         })
@@ -66,21 +67,24 @@ export default function Preview({ className }: Preview) {
     return (
 
 
-        <div className="bg-card-secondary p-5 shadow-lg rounded-2xl border-card/15 border flex-col flex gap-y-4 w-full h-150">
+        <div className="bg-surface p-5 shadow-lg rounded-2xl max-h-full shrink-0 border-border border flex-col flex gap-y-4 w-full h-full">
             <div className="flex gap-x-4 items-center ">
-                <h1 className="text-card font-bold text-2xl ">Preview</h1>
-                <h1 className="text-sm text-card/75">Più Recenti</h1>
+                <h1 className="text-text font-bold text-2xl ">Anteprima</h1>
+                <h1 className="text-sm text-text/50">Più Recenti</h1>
             </div>
 
-            <div className="flex justify-between border-b border-card/15 py-2">
-                <div className="flex gap-x-4 text-md  ">
-                    <button onClick={() => setPannello("categorie")} className={`${pannello == "categorie" ? "text-card font-bold" : "text-card/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Categorie</button>
-                    <button onClick={() => setPannello("prodotti")} className={`${pannello == "prodotti" ? "text-card font-bold" : "text-card/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Prodotti</button>
-                    <button onClick={() => setPannello("articoli")} className={`${pannello == "articoli" ? "text-card font-bold" : "text-card/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Articoli</button>
+            <div className="flex justify-between border-b border-border py-2 w-full items-center gap-x-5">
+                <div className="flex gap-x-4 text-md overflow-x-scroll px-1 h-full w-full ">
+                    <button onClick={() => setPannello("categorie")} className={`${pannello == "categorie" ? "text-text font-bold" : "text-text/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Categorie</button>
+                    <button onClick={() => setPannello("prodotti")} className={`${pannello == "prodotti" ? "text-text font-bold" : "text-text/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Prodotti</button>
+                    <button onClick={() => setPannello("articoli")} className={`${pannello == "articoli" ? "text-text font-bold" : "text-text/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Articoli</button>
                 </div>
-                <Link href={`/${pannello}`} className="hover:scale-105 transition-transform duration-150">Vedi tutti</Link>
+                <Link href={`/${pannello}`} className="hover:scale-105 transition-transform duration-150 items-center flex justify-center w-fit">
+                    <div className="hidden lg:block text-nowrap">Vedi tutti</div>
+                    <Link href={`/${pannello}`}><SquareArrowOutUpRight className="lg:hidden" /></Link>
+                </Link>
             </div>
-            <div className="grid grid-cols-2 grid-rows-2 w-full h-full gap-5 ">
+            <div className="lg:grid flex flex-col grid-cols-2 grid-rows-2 w-full h-full max-h-full min-h-0 gap-5 ">
                 {panel[pannello]}
             </div>
         </div>

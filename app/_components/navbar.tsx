@@ -1,6 +1,7 @@
 "use client"
-import { LayoutDashboard, Package, ScanBarcode } from "lucide-react"
+import { LayoutDashboard, Package, ScanBarcode, Archive } from "lucide-react"
 import Link from "next/link"
+import { ThemeToggle } from "./DarkMode";
 import { usePathname } from "next/navigation";
 
 export default function NavBar() {
@@ -10,21 +11,25 @@ export default function NavBar() {
 
 
     return (
-        <div className="h-full w-75 bg-card flex flex-col  items-center gap-y-5 text-foreground border-r-2 border-r-black rounded-r-2xl ">
-            <h1 className="text-4xl font-extrabold text-card-secondary py-10">KaYS</h1>
-            <div className="flex w-full h-12 items-center relative justify-center group">
-                {pathname == '/' && <div className="bg-card-secondary w-1 transition-all duration-150 group-hover:w-3 h-full absolute left-0 rounded-r-2xl" />}
-                <Link href={`/`} className={` ${ pathname == '/' ? "bg-card-secondary " : "text-card-secondary"} pl-10 transition-all duration-150 group-hover:translate-x-1   p-5 w-[75%] hover:cursor-pointer justify-start h-full  flex items-center rounded-xl gap-x-2 font-bold `}><LayoutDashboard /> Dashboard</Link>
+        <div className="h-15 w-full shrink-0 bg-surface justify-between shadow-md flex flex-row  items-center gap-y-5 px-5 text-foreground border-r-2 border-border ">
+
+            <div className="flex w-fit h-[75%]  items-center relative justify-center group  ">
+                <Link href={`/`} className={` ${pathname == '/' ? "border-b-2 " : "text-text"} border-surface-invert   p-1 group-hover:scale-102 w-fit hover:cursor-pointer justify-start h-fit  flex items-center gap-x-2 font-bold `}><LayoutDashboard /> Dashboard</Link>
             </div>
 
-            <div className="flex w-full h-12 items-center relative justify-center group">
-                {pathname == '/prodotti' && <div className="bg-card-secondary w-1 transition-all duration-150 group-hover:w-3 h-full absolute left-0 rounded-r-2xl" />}
-                <Link href={`/prodotti`} className={` ${ pathname == '/prodotti' ? "bg-card-secondary " : "text-card-secondary"} pl-10 transition-all duration-150 group-hover:translate-x-1   p-5 w-[75%] hover:cursor-pointer justify-start h-full  flex items-center rounded-xl gap-x-2 font-bold `}><ScanBarcode /> Prodotti</Link>
-            </div>
+            <div className="flex gap-x-5 w-fit h-full items-center">
+                <div className="flex w-fit h-[75%]  items-center relative justify-center group  ">
+                    <Link href={`/articoli`} className={` ${pathname == '/articoli' ? "border-b-2 " : "text-text"} p-1 border-surface-invert   group-hover:scale-102 w-fit hover:cursor-pointer justify-start h-fit  flex items-center gap-x-2 font-bold `}><ScanBarcode /> Articoli</Link>
+                </div>
+                <div className="flex w-fit h-[75%]  items-center relative justify-center group  ">
+                    <Link href={`/prodotti`} className={` ${pathname == '/prodotti' ? "border-b-2 " : "text-text"} p-1  border-surface-invert  group-hover:scale-102 w-fit hover:cursor-pointer justify-start h-fit  flex items-center gap-x-2 font-bold `}><Archive /> Prodotti</Link>
+                </div>
+                <div className="flex w-fit h-[75%]  items-center relative justify-center group  ">
+                    <Link href={`/lotti`} className={` ${pathname == '/lotti' ? "border-b-2 " : "text-text"} border-surface-invert p-1 group-hover:scale-102 w-fit hover:cursor-pointer justify-start h-fit  flex items-center gap-x-2 font-bold `}><Package /> Lotti</Link>
+                </div>
 
-            <div className="flex w-full h-12 items-center relative justify-center group">
-                {pathname == '/lotti' && <div className="bg-card-secondary w-1 transition-all duration-150 group-hover:w-3 h-full absolute left-0 rounded-r-2xl" />}
-                <Link href={`/lotti`} className={` ${pathname == '/lotti' ? "bg-card-secondary " : "text-card-secondary"} pl-10 transition-all duration-150 group-hover:translate-x-1   p-5 w-[75%] hover:cursor-pointer justify-start h-full  flex items-center rounded-xl gap-x-2 font-bold `}><Package /> Lotti</Link>
+                <ThemeToggle />
+
             </div>
         </div>
     )

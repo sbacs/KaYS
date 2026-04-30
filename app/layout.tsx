@@ -34,8 +34,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${figtree.variable} h-full antialiased relative overflow-hidden`}
     >
-      <body className="h-full flex flex-col relative items-center overflow-hidden ">
-        <div className="flex flex-row h-full w-[90%]  justify-center" >
+      <body className="h-full flex flex-col relative items-center overflow-hidden">
+        <div className="flex flex-col h-full w-full justify-center overflow-y-auto " >
+          <NavBar/>
           {children}
         </div>
         <PopUp />

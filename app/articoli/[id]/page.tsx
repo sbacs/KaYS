@@ -18,7 +18,7 @@ export default async function articolo({
     //const chemData = prodotto.cas  ? await (await fetch(`https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/${await (await fetch(`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${prodotto.cas}/json`)).json().then(r => r.PC_Compounds[0].id.id.cid) }/JSON/`)).json() : ""
 
     return (
-        <div className="flex gap-x-10 justify-center lg:p-5 py-5 w-full ">
+        <div className="flex gap-x-10 justify-center lg:p-5 py-5 h-full w-full ">
             <PannelloArticolo articolo={articolo} />
         </div>
     )
