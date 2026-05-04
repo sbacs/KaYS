@@ -11,7 +11,7 @@ export default function NavBar() {
 
 
     return (
-        <div className="h-15 w-full shrink-0 bg-surface justify-between shadow-md flex flex-row  items-center gap-y-5 px-5 text-foreground border-r-2 border-border ">
+        <div className="h-15 w-full shrink-0 bg-surface justify-between shadow-md flex flex-row  items-center gap-y-5 px-5 text-foreground border-b border-border ">
 
             <div className="flex w-fit h-[75%]  items-center relative justify-center group  ">
                 <Link href={`/`} className={` ${pathname == '/' ? "border-b-2 " : "text-text"} border-surface-invert   p-1 group-hover:scale-102 w-fit hover:cursor-pointer justify-start h-fit  flex items-center gap-x-2 font-bold `}><LayoutDashboard /> Dashboard</Link>

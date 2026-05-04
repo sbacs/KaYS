@@ -1,13 +1,13 @@
-// components/ThemeToggle.tsx
 'use client'
 import { Sun, Moon } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export function ThemeToggle() {
-    const [dark, setDark] = useState(false)
+    const [dark, setDark] = useState( localStorage.getItem('darkTheme') === 'true' )
 
     useEffect(() => {
         document.documentElement.classList.toggle('dark', dark)
+        localStorage.setItem('darkTheme', String(dark) );
     }, [dark])
 
     return (

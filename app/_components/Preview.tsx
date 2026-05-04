@@ -51,7 +51,7 @@ export default function Preview({ className }: Preview) {
 
                 <h1 className="text-sm text-text/75 hidden lg:block">{p.descrizione}</h1>
                 <h1 className="text-text hidden lg:block">CAS {p.cas}</h1>
-                <h1 className="text-text hidden lg:block">Riordino di {p.quantitaRiordino} {p.unita.tipo}</h1>
+                <h1 className="text-text text-sm hidden lg:block">Riordino di {p.quantitaRiordino} {p.unita.tipo}</h1>
             </div>  
         }),
         categorie: categorie?.slice(0, 4).map((c) => {

@@ -22,14 +22,14 @@ export default function Search({ route = "/articoli" }: SearchProps) {
     }, [query])
 
     return (
-        <div className="flex gap-x-4 relative border-b border-card-secondary/50 text-card-secondary">
-            <SearchIcon className="absolute right-0 text-card-secondary/25 p-0.5 " />
+        <div className="flex gap-x-4  relative border-b border-border text-text">
+            <SearchIcon className="absolute right-0 text-text p-0.5 " />
             <input onKeyDown={(e) => {
                 if (e.key == "Enter") {
                     setQuery(e.currentTarget.value)
                 }
 
-            }} type="text" className="text-card-secondary decoration-0 border-none outline-none" />
+            }} type="text" className="text-text decoration-0 min-w-75 border-none outline-none" />
         </div>
     )
 }

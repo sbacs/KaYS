@@ -83,41 +83,34 @@ export default function articoli() {
     if (!articoli) return <div>Nessun articolo trovato</div>
 
     return (
-        <div className="flex pb-5 w-full h-full">
+         <div className="flex w-full h-full min-h-0 pt-5">
 
-            <div className="flex flex-col gap-y-8  px-5 h-full pb-5  w-full items-center overflow-hidden">
-                <div className="w-full">
-                
+        <div className="flex flex-col gap-y-8 px-5 h-full min-h-0 w-full items-center overflow-hidden ">
+
+            <h1 className="text-4xl text-text font-bold text-center">Catalogo Articoli</h1>
+            <div className="w-full flex gap-x-4 flex-col lg:flex-row gap-y-4 shrink-0">
+                <Search />
+                <FilterBar initialFilters={filters} className="" />
+            </div>
+
+            <div className="flex w-full flex-col flex-1 min-h-0">
+                <div className="hidden lg:flex flex-row font-bold text-lg justify-between px-5 border-b border-border h-8 shrink-0">
+                    <h1 className="w-full">Nome</h1>
+                    <h1 className="w-full">Fornitore</h1>
+                    <h1 className="w-full">Descrizione</h1>
+                    <h1 className="w-50 shrink-0">Opzioni</h1>
                 </div>
-                <h1 className="text-4xl text-text font-bold text-center">Catalogo Articoli</h1>
-                <div className="w-full flex gap-x-4 flex-col lg:flex-row gap-y-4">
-                    <Search />
-
-                    <FilterBar initialFilters={filters} className="" />
-                </div>
-                <div className="flex w-full h-full gap-x-5 min-h-0 flex-1">
-                    <div className="flex w-full flex-col" >
-                        <div className="hidden lg:flex flex-row font-bold text-lg justify-between px-5 border-b border-border h-8 shrink-0 ">
-                            <h1 className="w-full">Nome</h1>
-                            <h1 className="w-full">Fornitore</h1>
-                            <h1 className="w-full ">Descrizione</h1>
-                            <h1 className="w-50 shrink-0 ">Opzioni</h1>
-                        </div>
-                        <div className="flex flex-col gap-y-2 w-full  overflow-y-scroll  py-2">
-                            {
-                                articoli.map((a) => {
-                                    return <ArticoloRow articolo={a} setEdit={(id) => setEdit(id)} />
-                                })
-                            }
-
-                        </div>
-                    </div>
+                <div className="flex flex-col gap-y-2 w-full flex-1 min-h-0  overflow-y-scroll py-2">
+                    {articoli.map((a) => (
+                        <ArticoloRow articolo={a} setEdit={(id) => setEdit(id)} key={a.id} />
+                    ))}
                 </div>
             </div>
-            {
-                edit && <PannelloArticolo articolo={infoArticolo} />
-            }
 
         </div>
+
+        {edit && <PannelloArticolo articolo={infoArticolo} />}
+
+    </div>
     )
 }

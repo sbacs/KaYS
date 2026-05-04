@@ -56,7 +56,7 @@ export default function PannelloArticolo({ articolo }: PannelloArticoloProps) {
 
     }, [])
 
-    if (!selectedProdotto || !selectedFornitoreId || !fornitori || !prodotti) return <div className="max-w-100 flex items-center justify-center min-w-100 h-full bg-card-secondary rounded-xl  shadow-md lg:p-5 p-2 border border-card/15">Loading View</div>;
+    if (!selectedProdotto || !selectedFornitoreId || !fornitori || !prodotti) return <div className="max-w-100 flex items-center justify-center min-w-100 h-full bg-surface rounded-xl  shadow-md lg:p-5 p-2 border border-border">Loading View</div>;
 
     return (
 

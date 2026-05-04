@@ -29,13 +29,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${figtree.variable} h-full antialiased relative overflow-hidden`}
     >
+      <head>
+          <script dangerouslySetInnerHTML={{__html: `
+          if (localStorage.getItem('darkTheme') === 'true') {
+            document.documentElement.classList.add('dark')
+          }
+        `}} />
+      </head>
+      
       <body className="h-full flex flex-col relative items-center overflow-hidden">
-        <div className="flex flex-col h-full w-full justify-center overflow-y-auto " >
+        <div className="flex flex-col h-full w-full  overflow-hidden " >
           <NavBar/>
           {children}
         </div>
