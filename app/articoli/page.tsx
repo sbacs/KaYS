@@ -16,9 +16,9 @@ export default function articoli() {
     const Fornitore = params.get("Fornitore") ?? ""
     const Prodotto = params.get("Prodotto") ?? ""
     const q = params.get("q") ?? ""
+    const p = Number(params.get("p")) ?? null
 
     const [articoli, setArticoli] = useState<Articolo[]>()
-    const [edit, setEdit] = useState<Number | null>()
 
     const [filters, setFilters] = useState<Record<string, { values: string[], active: number }>>()
     const [prodotti, setProdotti] = useState<Prodotto[]>()
@@ -61,18 +61,18 @@ export default function articoli() {
     }, [])
 
     useEffect(() => {
-        if (!edit) return;
+        if (!p) return;
 
         setInfoArticolo(undefined)
 
         async function getInfo() {
-            const articolo: ArticoloDettagliato = await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli/${edit}`)).json()
+            const articolo: ArticoloDettagliato = await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli/${p}`)).json()
             console.log(articolo)
             setInfoArticolo(articolo)
         }
 
         getInfo()
-    }, [edit])
+    }, [p])
 
     useEffect(() => {
         getArticoli()
@@ -88,7 +88,7 @@ export default function articoli() {
         <div className="flex flex-col gap-y-8 px-5 h-full min-h-0 w-full items-center overflow-hidden ">
 
             <h1 className="text-4xl text-text font-bold text-center">Catalogo Articoli</h1>
-            <div className="w-full flex gap-x-4 flex-col lg:flex-row gap-y-4 shrink-0">
+            <div className="w-full flex gap-x-4 flex-wrap flex-row gap-y-4 ">
                 <Search />
                 <FilterBar initialFilters={filters} className="" />
             </div>
@@ -102,14 +102,14 @@ export default function articoli() {
                 </div>
                 <div className="flex flex-col gap-y-2 w-full flex-1 min-h-0  overflow-y-scroll py-2">
                     {articoli.map((a) => (
-                        <ArticoloRow articolo={a} setEdit={(id) => setEdit(id)} key={a.id} />
+                        <ArticoloRow highlighted={a.id === p}  articolo={a} key={a.id} />
                     ))}
                 </div>
             </div>
 
         </div>
 
-        {edit && <PannelloArticolo articolo={infoArticolo} />}
+        {p && <PannelloArticolo articolo={infoArticolo} />}
 
     </div>
     )

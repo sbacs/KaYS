@@ -60,35 +60,35 @@ export default function PannelloArticolo({ articolo }: PannelloArticoloProps) {
 
     return (
 
-        <div className="overflow-y-scroll lg:max-w-100 lg:min-w-100 w-full h-full bg-surface rounded-xl flex flex-col border border-border shadow-md p-5 ">
+        <div className="overflow-y-scroll  w-125 shrink-0 h-full bg-surface rounded-xl flex flex-col border border-border shadow-md p-5 ">
 
           
             {
                 (articolo && selectedFornitoreId && selectedProdotto) ? (
                     <div className="flex flex-col gap-y-8 ">
-                        <div className="flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-y-6">
                             <h1 className="font-extrabold text-2xl border-b border-border">Articolo</h1>
-                            <div className="flex flex-col gap-y-1">
-                                <h1 className="text-lg font-bold">{articolo.nome}</h1>
+                            <div className="flex flex-col gap-y-4">
+                                <h1 className="text-2xl font-bold">{articolo.nome}</h1>
                                 <select
                                     value={selectedFornitoreId}
                                     onChange={e => setSelectedFornitoreId(Number(e.target.value))}
-                                    className="text-md text-card/75 bg-transparent border-none outline-none hover:text-text cursor-pointer w-fit"
+                                    className="text-xl   text-card/75 bg-transparent border-none outline-none hover:text-text cursor-pointer w-fit"
                                 >
                                     {fornitori.map(f => (
                                         <option key={f.id} value={f.id}>{f.nome}</option>
                                     ))}
                                 </select>
-                                <h1 className="text-md text-text/75">{articolo.descrizione}</h1>
-                                <h1 className="text-md text-text/75">{articolo.linkScheda}</h1>
-                                <h1 className="text-md text-text/75">Quantita' del recipiente {articolo.quantitaRecipiente} {selectedProdotto.unita.tipo}</h1>
+                                <h1 className="text-xl text-text/75">{articolo.descrizione}</h1>
+                                <h1 className="text-xl text-text/75">{articolo.linkScheda}</h1>
+                                <h1 className="text-xl text-text/75">Quantita' del recipiente {articolo.quantitaRecipiente} {selectedProdotto.unita.tipo}</h1>
                             </div>
 
                         </div>
 
-                        <div className="flex flex-col gap-y-4">
+                        <div className="flex flex-col gap-y-6">
                             <h1 className="font-bold text-2xl border-b border-border">Prodotto</h1>
-                            <div className="flex flex-col gap-y-1">
+                            <div className="flex flex-col gap-y-4">
                                 <select
                                     value={selectedProdotto.id}
                                     onChange={(e) => {
@@ -96,23 +96,23 @@ export default function PannelloArticolo({ articolo }: PannelloArticoloProps) {
                                         e.preventDefault();
                                         setSelectedProdotto(prodotti.find(p => p.id === Number(e.target.value))!)
                                     }}
-                                    className="text-lg font-bold text-text bg-transparent border-none outline-none hover:text-card/75 cursor-pointer w-fit"
+                                    className="text-xl font-bold text-text bg-transparent border-none outline-none hover:text-card/75 cursor-pointer w-fit"
                                 >
                                     {prodotti.map(p => {
                                         return p.unita.id == articolo.prodotto.unita.id && <option key={p.id} value={p.id}>{p.nome}</option>
                                     })}
                                 </select>
-                                <h1 className="text-md text-text/75">CAS {selectedProdotto.cas}</h1>
-                                <h1 className="text-md text-text/75">Quantita' di riordino {selectedProdotto.quantitaRiordino} {selectedProdotto.unita.tipo}</h1>
-                                <h1 className="text-md text-text/75">{selectedProdotto.classificazione}</h1>
+                                <h1 className="text-xl text-text/75">CAS {selectedProdotto.cas}</h1>
+                                <h1 className="text-xl text-text/75">Quantita' di riordino {selectedProdotto.quantitaRiordino} {selectedProdotto.unita.tipo}</h1>
+                                <h1 className="text-xl text-text/75">{selectedProdotto.classificazione}</h1>
                             </div>
 
                         </div>
 
-                        <div className="flex flex-col gap-y-1">
+                        <div className="flex flex-col gap-y-6">
                             <h1 className="font-bold text-2xl border-b border-border">Categoria</h1>
                             <div className="flex flex-col">
-                                <h1 className="text-lg font-bold">{selectedProdotto.categoria.nome}</h1>
+                                <h1 className="text-2xl font-bold">{selectedProdotto.categoria.nome}</h1>
                             </div>
 
                         </div>

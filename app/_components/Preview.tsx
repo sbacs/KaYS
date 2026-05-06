@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
-import { Ellipsis, SquareArrowOutUpRight, FolderSymlink} from "lucide-react"
+import { Ellipsis, SquareArrowOutUpRight, FolderSymlink } from "lucide-react"
 import { Articolo, Prodotto, Categoria } from "../lib/types"
 
 
@@ -19,6 +19,18 @@ export default function Preview({ className }: Preview) {
 
     const [pannello, setPannello] = useState<"articoli" | "prodotti" | "categorie">("articoli")
 
+    const [limit, setLimit] = useState(4);
+
+    useEffect(() => {
+        const mq = window.matchMedia("(min-width: 2560px)");
+        const handler = (e: MediaQueryListEvent | MediaQueryList) => {
+            setLimit(e.matches ? 8 : 4);
+        };
+        handler(mq); // set on mount
+        mq.addEventListener("change", handler);
+        return () => mq.removeEventListener("change", handler);
+    }, []);
+
     useEffect(() => {
         async function getPreviews() {
 
@@ -31,7 +43,7 @@ export default function Preview({ className }: Preview) {
     }, [])
 
     const panel: Record<string, React.ReactNode> = {
-        articoli: articoli?.slice(0, 4).map((a) => {
+        articoli: articoli?.slice(0, limit).map((a) => {
             return <div key={a.id} className="flex flex-col border-border rounded-xl bg-surface-raised shadow-md border w-full shrink-0  gap-y-2 lg:h-full h-fit lg:p-5 p-2 justify-center lg:justify-center">
                 <div className="flex justify-between items-center lg:items-start gap-x-5">
                     <h1 className="font-bold text-text text-xl text-nowrap truncate">{a.nome}</h1>
@@ -42,7 +54,7 @@ export default function Preview({ className }: Preview) {
                 <h1 className="text-text hidden lg:block">{a.fornitore.nome}</h1>
             </div>
         }),
-        prodotti: prodotti?.slice(0, 4).map((p) => {
+        prodotti: prodotti?.slice(0, limit).map((p) => {
             return <div key={p.id} className="flex flex-col border-border rounded-xl bg-surface-raised justify-center shadow-md border w-full gap-y-1 h-full lg:p-5 p-2">
                 <div className="flex justify-between lg:items-start items-center ">
                     <h1 className="font-bold text-text text-xl">{p.nome}</h1>
@@ -52,9 +64,9 @@ export default function Preview({ className }: Preview) {
                 <h1 className="text-sm text-text/75 hidden lg:block">{p.descrizione}</h1>
                 <h1 className="text-text hidden lg:block">CAS {p.cas}</h1>
                 <h1 className="text-text text-sm hidden lg:block">Riordino di {p.quantitaRiordino} {p.unita.tipo}</h1>
-            </div>  
+            </div>
         }),
-        categorie: categorie?.slice(0, 4).map((c) => {
+        categorie: categorie?.slice(0, limit).map((c) => {
             return <div key={c.id} className="flex flex-col border-border rounded-xl bg-surface-raised shadow-md border w-full shrink-0  gap-y-2 lg:h-full h-fit lg:p-5 p-2 justify-center lg:justify-center">
                 <div className="flex justify-between items-center lg:items-start gap-x-5">
                     <h1 className="font-bold text-text text-xl text-nowrap truncate">{c.nome}</h1>
@@ -84,7 +96,7 @@ export default function Preview({ className }: Preview) {
                     <Link href={`/${pannello}`}><SquareArrowOutUpRight className="lg:hidden" /></Link>
                 </Link>
             </div>
-            <div className="lg:grid flex flex-col grid-cols-2 grid-rows-2 w-full h-full max-h-full min-h-0 gap-5 ">
+            <div className="lg:grid flex flex-col grid-cols-2  w-full h-full max-h-full min-h-0 gap-5 ">
                 {panel[pannello]}
             </div>
         </div>
