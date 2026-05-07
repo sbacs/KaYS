@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Articolo, ArticoloDettagliato } from '@/app/lib/types';
 import { createArticolo, deleteArticolo, editArticolo, getArticolo } from '@/app/services/articoli';
-import { error } from 'console';
-import Error from 'next/error';
 
 
 export async function GET(
@@ -60,9 +58,6 @@ export async function POST(
         posizione,
         linkScheda
     } = body;
-
-    if (!id)
-        return NextResponse.json({ response: "id articolo richiesto" }, { status: 400 });
 
     try {
 

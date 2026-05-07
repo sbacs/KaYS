@@ -7,15 +7,46 @@ export async function createProdotto(nome: string, descrizione: string = "", idU
     return result;
 }
 
-export async function getProdotti() {
-    const [prodotti] = await pool.query<Prodotto[]>(` 
-        select p.nome, p.cas, p.descrizione, p.concentrazione, p.id, p.classificazione, p.quantita_riordino as "quantitaRiordino", json_object('id', um.id, 'tipo', um.tipo) as unita, json_object('id', c.id, 'nome', c.nome) as categoria from prodotti p
-        join unita_misura um on um.id = p.id_unita   
-        join categorie c on c.id = p.id_categoria      
-    `)
-    return prodotti;
-}
 
+export async function getProdotti(ordine = "", categoria = "", unita = "", q = "") {
+    const conditions: string[] = []
+    const params: string[] = []
+
+    if (categoria) {
+        conditions.push("c.nome = ?")
+        params.push(categoria)
+    }
+
+    if (unita) {
+        conditions.push("u.tipo = ?")
+        params.push(unita)
+    }
+
+    if (q) {
+        conditions.push("p.nome LIKE CONCAT('%', ?, '%')")
+        params.push(q)
+    }
+
+    const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : ""
+
+    const [prodotti] = await pool.query<Prodotto[]>(`
+        SELECT 
+            p.nome, 
+            p.descrizione, 
+            p.id, 
+            p.quantita_riordino AS "quantitaRiordino", 
+            p.cas, 
+            p.classificazione, 
+            JSON_OBJECT('id', u.id, 'tipo', u.tipo) as Unita,
+            JSON_OBJECT('id', c.id, 'nome', c.nome) as categoria
+        FROM prodotti p
+        join unita_misura u on u.id = p.id_unita
+        JOIN categorie c ON c.id = p.id_categoria
+        ${where}
+    `, params)
+
+    return prodotti
+}
 
 export async function prodottiTotali() {
     const [totale] = await pool.query<RowDataPacket[]>(`

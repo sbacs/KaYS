@@ -24,7 +24,7 @@ export default function articoli() {
     const [prodotti, setProdotti] = useState<Prodotto[]>()
     const [fornitori, setFornitori] = useState<Fornitore[]>()
 
-    const [infoArticolo, setInfoArticolo] = useState<ArticoloDettagliato | undefined>(undefined)
+    const [infoArticolo, setInfoArticolo] = useState<ArticoloDettagliato>()
 
     async function getArticoli() {
         const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli`;
@@ -35,6 +35,14 @@ export default function articoli() {
         const articoli = await res.json()
 
         setArticoli(articoli)
+    }
+
+    async function refresh() {
+        await getArticoli();
+        if (p) {
+            const articolo: ArticoloDettagliato = await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli/${p}`)).json()
+            setInfoArticolo(articolo)
+        }
     }
 
     useEffect(() => {
@@ -83,34 +91,34 @@ export default function articoli() {
     if (!articoli) return <div>Nessun articolo trovato</div>
 
     return (
-         <div className="flex w-full h-full min-h-0 pt-5">
+        <div className="flex w-full h-full min-h-0 pt-5">
 
-        <div className="flex flex-col gap-y-8 px-5 h-full min-h-0 w-full items-center overflow-hidden ">
+            <div className="flex flex-col gap-y-8 px-5 h-full min-h-0 w-full items-center overflow-hidden ">
 
-            <h1 className="text-4xl text-text font-bold text-center">Catalogo Articoli</h1>
-            <div className="w-full flex gap-x-4 flex-wrap flex-row gap-y-4 ">
-                <Search />
-                <FilterBar initialFilters={filters} className="" />
+                <h1 className="text-4xl text-text font-bold text-center">Catalogo Articoli</h1>
+                <div className="w-full flex gap-x-4 flex-wrap flex-row gap-y-4 ">
+                    <Search />
+                    <FilterBar initialFilters={filters} className="" />
+                </div>
+
+                <div className="flex w-full flex-col flex-1 min-h-0">
+                    <div className="hidden lg:flex flex-row font-bold text-lg justify-between px-5 border-b border-border h-8 shrink-0">
+                        <h1 className="w-full">Nome</h1>
+                        <h1 className="w-full">Fornitore</h1>
+                        <h1 className="w-full">Descrizione</h1>
+                        <h1 className="w-50 shrink-0">Opzioni</h1>
+                    </div>
+                    <div className="flex flex-col gap-y-2 w-full flex-1 min-h-0  overflow-y-scroll py-2">
+                        {articoli.map((a) => (
+                            <ArticoloRow highlighted={a.id === p} articolo={a} key={a.id} />
+                        ))}
+                    </div>
+                </div>
+
             </div>
 
-            <div className="flex w-full flex-col flex-1 min-h-0">
-                <div className="hidden lg:flex flex-row font-bold text-lg justify-between px-5 border-b border-border h-8 shrink-0">
-                    <h1 className="w-full">Nome</h1>
-                    <h1 className="w-full">Fornitore</h1>
-                    <h1 className="w-full">Descrizione</h1>
-                    <h1 className="w-50 shrink-0">Opzioni</h1>
-                </div>
-                <div className="flex flex-col gap-y-2 w-full flex-1 min-h-0  overflow-y-scroll py-2">
-                    {articoli.map((a) => (
-                        <ArticoloRow highlighted={a.id === p}  articolo={a} key={a.id} />
-                    ))}
-                </div>
-            </div>
+            {(p && infoArticolo ) && <PannelloArticolo articolo={infoArticolo} onSave={refresh} />}
 
         </div>
-
-        {p && <PannelloArticolo articolo={infoArticolo} />}
-
-    </div>
     )
 }

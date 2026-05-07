@@ -52,7 +52,7 @@ export async function editArticolo(
         [...values, idArticolo]
     );
 
-    return [result]
+    return result
 }
 
 export async function getArticolo(id: number) {

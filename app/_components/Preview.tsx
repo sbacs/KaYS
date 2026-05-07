@@ -47,7 +47,7 @@ export default function Preview({ className }: Preview) {
             return <div key={a.id} className="flex flex-col border-border rounded-xl bg-surface-raised shadow-md border w-full shrink-0  gap-y-2 lg:h-full h-fit lg:p-5 p-2 justify-center lg:justify-center">
                 <div className="flex justify-between items-center lg:items-start gap-x-5">
                     <h1 className="font-bold text-text text-xl text-nowrap truncate">{a.nome}</h1>
-                    <Link href={`/articoli/${a.id}`} className="hover:cursor-pointer  text-text transition-all duration-150 hover:scale-110"><FolderSymlink /></Link>
+                    <Link href={`/articoli?p=${a.id}`} className="hover:cursor-pointer  text-text transition-all duration-150 hover:scale-110"><FolderSymlink /></Link>
                 </div>
 
                 <h1 className="hidden lg:block text-sm text-text/75">{a.descrizione}</h1>
@@ -58,7 +58,7 @@ export default function Preview({ className }: Preview) {
             return <div key={p.id} className="flex flex-col border-border rounded-xl bg-surface-raised justify-center shadow-md border w-full gap-y-1 h-full lg:p-5 p-2">
                 <div className="flex justify-between lg:items-start items-center ">
                     <h1 className="font-bold text-text text-xl">{p.nome}</h1>
-                    <Link href={`/prodotti/${p.id}`} className="hover:cursor-pointer transition-all duration-150 hover:scale-110 "><FolderSymlink /></Link>
+                    <Link href={`/prodotti?p=${p.id}`} className="hover:cursor-pointer transition-all duration-150 hover:scale-110 "><FolderSymlink /></Link>
                 </div>
 
                 <h1 className="text-sm text-text/75 hidden lg:block">{p.descrizione}</h1>
@@ -70,7 +70,7 @@ export default function Preview({ className }: Preview) {
             return <div key={c.id} className="flex flex-col border-border rounded-xl bg-surface-raised shadow-md border w-full shrink-0  gap-y-2 lg:h-full h-fit lg:p-5 p-2 justify-center lg:justify-center">
                 <div className="flex justify-between items-center lg:items-start gap-x-5">
                     <h1 className="font-bold text-text text-xl text-nowrap truncate">{c.nome}</h1>
-                    <Link href={`/categorie/${c.id}`} className="hover:cursor-pointer transition-all duration-150 hover:scale-110"><FolderSymlink /></Link>
+                    <Link href={`/categorie?p=${c.id}`} className="hover:cursor-pointer transition-all duration-150 hover:scale-110"><FolderSymlink /></Link>
                 </div>
             </div>
         })

@@ -2,11 +2,17 @@ import { NextResponse } from 'next/server';
 import { Prodotto } from '@/app/lib/types';
 import { createProdotto, getProdotti } from '@/app/services/prodotti';
 
-export async function GET() {
+export async function GET(request: Request) {
+
+    const { searchParams } = new URL(request.url)
+
+    const categoria = searchParams.get("Categoria") ?? ""
+    const unita = searchParams.get("Unità") ?? ""
+    const q = searchParams.get("q") ?? ""
 
     try {
-        const articoli : Prodotto[] = await getProdotti();
-        return NextResponse.json(articoli, { status: 200 });
+        const prodotti: Prodotto[] = await getProdotti("",categoria, unita, q );
+        return NextResponse.json(prodotti, { status: 200 });
 
     } catch {
 
@@ -20,10 +26,10 @@ export async function POST(request: Request
 ) {
 
     const body = await request.json();
-    const { 
+    const {
         nome,
         idCategoria,
-        descrizione, 
+        descrizione,
         quanitaRiordino,
         idUnita,
         cas,
@@ -39,7 +45,7 @@ export async function POST(request: Request
         await createProdotto(nome, descrizione, idUnita, quanitaRiordino, classificazione, concentrazione, cas, idCategoria)
         return NextResponse.json({ status: 200 });
 
-    } catch(e) {
+    } catch (e) {
         console.log("errore", e)
         return NextResponse.json({ status: 500 });
     }
