@@ -17,7 +17,7 @@
                 <div className=" w-full  px-2 lg:px-5 self-center h-[25%] border-b border-border  justify-between text-text items-center flex">
                     <h1 className="text-3xl font-bold">KaYS</h1>
                     <div className="flex gap-x-1 w-fit ">
-                        <Search route={`/`} />
+                        <Search />
                     </div>
                 </div>
 

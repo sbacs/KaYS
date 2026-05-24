@@ -37,7 +37,7 @@ export async function getProdotti(ordine = "", categoria = "", unita = "", q = "
             p.quantita_riordino AS "quantitaRiordino", 
             p.cas, 
             p.classificazione, 
-            JSON_OBJECT('id', u.id, 'tipo', u.tipo) as Unita,
+            JSON_OBJECT('id', u.id, 'tipo', u.tipo) as unita,
             JSON_OBJECT('id', c.id, 'nome', c.nome) as categoria
         FROM prodotti p
         join unita_misura u on u.id = p.id_unita

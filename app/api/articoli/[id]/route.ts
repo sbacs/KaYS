@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Articolo, ArticoloDettagliato } from '@/app/lib/types';
 import { createArticolo, deleteArticolo, editArticolo, getArticolo } from '@/app/services/articoli';
+import { error } from 'console';
 
 
 export async function GET(
@@ -13,9 +14,9 @@ export async function GET(
         const articolo: ArticoloDettagliato = await getArticolo(Number(id));
         return NextResponse.json(articolo, { status: 200 });
 
-    } catch {
+    } catch (e){
 
-        return NextResponse.json({ status: 500 });
+        return NextResponse.json({ status: 500, error: e });
     }
 }
 

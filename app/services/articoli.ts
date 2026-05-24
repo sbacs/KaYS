@@ -4,8 +4,8 @@ import { Articolo, Prodotto } from "../lib/types";
 import { RowDataPacket } from "mysql2";
 import { getProdotto } from "./prodotti";
 
-export async function createArticolo(nome: string, descrizione: string = "", idProdotto: number, idFornitore: number, quantitaRecipiente: number, posizione: string, linkScheda: string) {
-    const [result] = await pool.query(`INSERT INTO articoli (nome, descrizione, id_prodotto, quantita_recipiente, id_fornitore, posizione, link_scheda) VALUES (?, ?, ?, ?, ?, ?, ?)`, [nome, descrizione, idProdotto, quantitaRecipiente, idFornitore, posizione, linkScheda]);
+export async function createArticolo(nome: string, descrizione: string = "", idProdotto: number, idFornitore: number, quantitaRecipiente: number, linkScheda: string) {
+    const [result] = await pool.query(`INSERT INTO articoli (nome, descrizione, id_prodotto, quantita_recipiente, id_fornitore, link_scheda) VALUES (?, ?, ?, ?, ?, ?)`, [nome, descrizione, idProdotto, quantitaRecipiente, idFornitore, linkScheda]);
     return result;
 }
 
@@ -37,11 +37,11 @@ export async function editArticolo(
         link_scheda: updates.linkScheda,
     };
 
-    const prodotto1 : Prodotto = await getProdotto(updates.idProdotto || 1)
-    const art : Articolo = await getArticolo(idArticolo);
-    const prodotto2 : Prodotto = await getProdotto(art.idProdotto)
+    const prodotto1: Prodotto = await getProdotto(updates.idProdotto || 1)
+    const art: Articolo = await getArticolo(idArticolo);
+    const prodotto2: Prodotto = await getProdotto(art.idProdotto)
 
-    if(prodotto1.unita.id != prodotto2.unita.id) throw Error;
+    if (prodotto1.unita.id != prodotto2.unita.id) throw Error;
 
     const entries = Object.entries(fields).filter(([_, v]) => v !== undefined);
     const setClauses = entries.map(([col], i) => `${col} = ?`).join(', ');
@@ -62,7 +62,6 @@ export async function getArticolo(id: number) {
             a.descrizione, 
             a.id, 
             a.quantita_recipiente AS "quantitaRecipiente", 
-            a.posizione, 
             a.link_scheda AS "linkScheda", 
             JSON_OBJECT('id', f.id, 'nome', f.nome) as fornitore,
             a.id_prodotto as "idProdotto",
@@ -98,7 +97,7 @@ export async function articoliTotali() {
     return Number(totale[0].totale);
 }
 
-export async function getArticoli(ordine = "", prodotto = "", fornitore = "", q = "") {
+export async function getArticoli(ordine = "", prodotto = "", fornitore = "", q = "", nomeArticolo = "") {
     const conditions: string[] = []
     const params: string[] = []
 
@@ -117,6 +116,11 @@ export async function getArticoli(ordine = "", prodotto = "", fornitore = "", q 
         params.push(q)
     }
 
+    if(nomeArticolo){
+        conditions.push("a.nome = ?")
+        params.push(nomeArticolo)
+    }
+
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : ""
 
     const [articoli] = await pool.query<Articolo[]>(`
@@ -124,8 +128,8 @@ export async function getArticoli(ordine = "", prodotto = "", fornitore = "", q 
             a.nome, 
             a.descrizione, 
             a.id, 
-            a.quantita_recipiente AS "quantitaRecipiente", 
-            a.posizione, 
+            a.id_prodotto as "idProdotto",
+            a.quantita_recipiente AS "quantitaRecipiente",
             a.link_scheda AS "linkScheda", 
             JSON_OBJECT('id', f.id, 'nome', f.nome) as fornitore
         FROM articoli a
@@ -139,9 +143,13 @@ export async function getArticoli(ordine = "", prodotto = "", fornitore = "", q 
 
 export async function getArticoliFrom(data: Date) {
 
-     const [articoli] = await pool.query<Articolo[]>(`
+    const [articoli] = await pool.query<Articolo[]>(`
        select * from articoli where creato_il > ?
     `, data)
 
     return articoli;
 }
+
+
+
+

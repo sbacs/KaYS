@@ -1,11 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createFornitoro, getFornitori } from '@/app/services/fornitori';
 import { Fornitore } from '@/app/lib/types';
 
-export async function GET() {
+export async function GET(request : Request) {
+
+
+    const { searchParams } = new URL(request.url)
+
+    const idArticolo = searchParams.get("idArticolo") ?? ""
+    const nomeArticolo = searchParams.get("nomeArticolo") ?? ""
 
     try {
-        const fornitori : Fornitore[] = await getFornitori();
+        const fornitori : Fornitore[] = await getFornitori(idArticolo, nomeArticolo);
         return NextResponse.json(fornitori, { status: 200 });
 
     } catch {

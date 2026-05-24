@@ -9,14 +9,15 @@ export async function GET(request: Request) {
     const fornitore = searchParams.get("Fornitore") ?? ""
     const prodotto = searchParams.get("Prodotto") ?? ""
     const q = searchParams.get("q") ?? ""
+    const nomeArticolo = searchParams.get("nomeArticolo") ?? ""
 
     try {
-        const articoli: Articolo[] = await getArticoli("", prodotto, fornitore, q);
+        const articoli: Articolo[] = await getArticoli("", prodotto, fornitore, q, nomeArticolo);
         return NextResponse.json(articoli, { status: 200 });
 
-    } catch {
+    } catch (e) {
 
-        return NextResponse.json({ status: 500 });
+        return NextResponse.json({ status: 500, error: e });
     }
 
 }
@@ -31,16 +32,15 @@ export async function POST(request: Request) {
         descrizione,
         quantitaRecipiente,
         idFornitore,
-        posizione,
         linkScheda
     } = body;
 
-    if (!nome || !quantitaRecipiente || !idFornitore || !posizione || !linkScheda || !idProdotto)
+    if (!nome || !quantitaRecipiente || !idFornitore || !linkScheda || !idProdotto)
         return NextResponse.json({ response: "campi mancanti" }, { status: 400 });
 
     try {
 
-        await createArticolo(nome, descrizione, idProdotto, idFornitore, quantitaRecipiente, posizione, linkScheda)
+        await createArticolo(nome, descrizione, idProdotto, idFornitore, quantitaRecipiente, linkScheda)
         return NextResponse.json({ status: 200 });
 
     } catch (e) {

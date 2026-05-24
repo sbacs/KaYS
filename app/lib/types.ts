@@ -74,3 +74,20 @@ export interface Articolo extends RowDataPacket {
 export interface ArticoloDettagliato extends Articolo{
     prodotto: Prodotto
 }
+
+export interface Magazzino extends RowDataPacket {
+    id: number;
+    nome: string;
+}
+
+export interface Lotto extends RowDataPacket {
+    id: number;
+    articolo: Articolo;
+    unita: Unita;
+    quantita: number;
+    dataScadenza: Date;
+    magazzino: Magazzino;
+    quantitaOrdinata: number;
+    posizione: string;
+    dataLotto: Date;
+}

@@ -34,9 +34,9 @@ export default function Preview({ className }: Preview) {
     useEffect(() => {
         async function getPreviews() {
 
-            setArticoli(await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articoli`)).json())
-            setProdotti(await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/prodotti`)).json())
-            setCategorie(await (await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/categorie`)).json())
+            setArticoli(await (await fetch(`/api/articoli`)).json())
+            setProdotti(await (await fetch(`/api/prodotti`)).json())
+            setCategorie(await (await fetch(`/api/categorie`)).json())
         }
 
         getPreviews();
@@ -86,7 +86,7 @@ export default function Preview({ className }: Preview) {
             </div>
 
             <div className="flex justify-between border-b border-border py-2 w-full items-center gap-x-5">
-                <div className="flex gap-x-4 text-md overflow-x-scroll px-1 h-full w-full ">
+                <div className="flex gap-x-4 text-md px-1 h-full w-full ">
                     <button onClick={() => setPannello("categorie")} className={`${pannello == "categorie" ? "text-text font-bold" : "text-text/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Categorie</button>
                     <button onClick={() => setPannello("prodotti")} className={`${pannello == "prodotti" ? "text-text font-bold" : "text-text/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Prodotti</button>
                     <button onClick={() => setPannello("articoli")} className={`${pannello == "articoli" ? "text-text font-bold" : "text-text/75 hover:cursor-pointer hover:scale-105 transition-all duration-100"}`}>Articoli</button>
