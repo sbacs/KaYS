@@ -161,62 +161,66 @@ Configurazione:
 
 ### Funzionalità di Base (Critica)
 
-1. **Gestione Autorizzazioni**
+1. **Gestione degli errori**
+   - Gestione degli errori all'interno degli endpoint api e degli errori all'interno delle funzioni server. 
+   - Restituzione piu chiara degli errori (al momento ci si limita ad un errore generico es. 500, 404)
+
+2. **Gestione Autorizzazioni**
    - ❌ Sistema di login/autenticazione
    - ❌ Ruoli user/admin con autorizzazioni differenziate
    - ❌ Protezione endpoint API
 
-2. **Gestione Prelievi (Core)**
+3. **Gestione Prelievi (Core)**
    - ❌ Interfaccia user-friendly per registrazione prelievi
    - ❌ Logica FIFO per selezione automatica lotto
    - ❌ Validazione quantità disponibili
    - ❌ Conferma prelievo
 
-3. **Gestione Reintegri (Core)**
+4. **Gestione Reintegri (Core)**
    - ❌ Interfaccia inserimento nuovi lotti
    - ❌ Impostazione data scadenza automatica (3 anni)
    - ❌ Collegamento lotto-articolo
 
-4. **Query e Ricerche**
+5. **Query e Ricerche**
    - ❌ Ricerca avanzata per categoria
    - ❌ Filtri multiple e combinati
    - ❌ Ordinamento per vari criteri
 
 ### Funzionalità Avanzate (Importante)
 
-5. **QR Code Scanning**
+6. **QR Code Scanning**
    - ❌ Integrazione libreria QR scanner
    - ❌ Interfaccia QR per prelievi
    - ❌ Generazione QR code per articoli
 
-6. **Pagina Prelievi per Mobile**
+7. **Pagina Prelievi per Mobile**
    - ❌ Pagina dedicata per prelievi su smartphone
    - ❌ Interfaccia ottimizzata per touch e schermo piccolo
    - ❌ Supporto scansione QR integrata
 
-7. **Bill of Materials**
+8. **Bill of Materials**
    - ❌ Interfaccia creazione esperimenti
    - ❌ Gestione distinte base
    - ❌ Verificazione disponibilità materiali con click
    - ❌ Avviso magazzino polmone
 
-8. **Storicizzazione Prelievi**
+9. **Storicizzazione Prelievi**
    - ❌ Tabella storico prelievi
    - ❌ Timestamp e tracciamento utente
    - ❌ Visualizzazione cronologia
 
-9. **Sistema Riordini**
+10. **Sistema Riordini**
     - ❌ Calcolo soglia riordino (FeedForward)
     - ❌ Alert automatici
     - ❌ Lista riordini gestibile
     - ❌ Analisi consumo mensile medio
 
-10. **Indicatori Visivi**
+11. **Indicatori Visivi**
     - ❌ Colore giacenza per rischio esaurimento
     - ❌ Display fabbisogno stimato
     - ❌ Dashboard indicatori KPI
 
-11. **Report e Export**
+12. **Report e Export**
     - ❌ Generazione report prelievi (Excel/PDF)
     - ❌ Report materiali in scadenza
     - ❌ Report lista riordini
@@ -224,7 +228,7 @@ Configurazione:
 
 ### Documentazione e Manutenzione (Importante)
 
-12. **Documentazione Software**
+13. **Documentazione Software**
     - ⚠️ README.md base (presente)
     - ❌ Documentazione API completa
     - ❌ Guide per sviluppatori
