@@ -11,7 +11,8 @@ export async function GET(request: Request) {
     const q = searchParams.get("q") ?? ""
 
     try {
-        const prodotti: Prodotto[] = await getProdotti("",categoria, unita, q );
+        
+        const prodotti: Prodotto[] = await getProdotti("", categoria, unita, q );
         return NextResponse.json(prodotti, { status: 200 });
 
     } catch {

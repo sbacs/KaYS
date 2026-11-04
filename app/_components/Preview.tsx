@@ -42,6 +42,8 @@ export default function Preview({ className }: Preview) {
         getPreviews();
     }, [])
 
+
+
     const panel: Record<string, React.ReactNode> = {
         articoli: articoli?.slice(0, limit).map((a) => {
             return <div key={a.id} className="flex flex-col border-border rounded-xl bg-surface-raised shadow-md border w-full shrink-0  gap-y-2 lg:h-full h-fit lg:p-5 p-2 justify-center lg:justify-center">

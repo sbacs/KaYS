@@ -29,6 +29,7 @@ export async function getProdotti(ordine = "", categoria = "", unita = "", q = "
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : ""
 
+
     const [prodotti] = await pool.query<Prodotto[]>(`
         SELECT 
             p.nome, 
@@ -36,7 +37,6 @@ export async function getProdotti(ordine = "", categoria = "", unita = "", q = "
             p.id, 
             p.quantita_riordino AS "quantitaRiordino", 
             p.cas, 
-            p.classificazione, 
             JSON_OBJECT('id', u.id, 'tipo', u.tipo) as unita,
             JSON_OBJECT('id', c.id, 'nome', c.nome) as categoria
         FROM prodotti p
